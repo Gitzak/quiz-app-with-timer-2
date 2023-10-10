@@ -1,0 +1,14 @@
+.answer-timer-container{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    border: 1px solid #242424;
+}
+
+.answer-timer-container > .progress{
+    height: 5px;
+    transition-duration: 0.1s;
+    width: 0;
+    transition-timing-function: linear;
+}

@@ -1,23 +1,20 @@
-import logo from './logo.svg';
-import './App.css';
+import { QuizScreen } from './Components/QuizScreen/QuizScreen';
+import { JoinScreen } from './Components/JoinScreen/JoinScreen';
+import QuestionList from "./data/quizzes.json";
+import { useState } from 'react';
+
 
 function App() {
+  const [isQuizStarted, setIsQuizStarted] = useState(false)
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="quiz-container">
+      {
+        isQuizStarted ? (
+          <QuizScreen retry={() => setIsQuizStarted(false)} questions={QuestionList} />
+        ) : (
+          <JoinScreen start={() => setIsQuizStarted(true)} />
+        )
+      }
     </div>
   );
 }
