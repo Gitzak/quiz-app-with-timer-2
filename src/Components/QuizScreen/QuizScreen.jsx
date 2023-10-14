@@ -1,9 +1,17 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
+import { Loader } from "../Loader/Loader";
 import "./QuizScreen.css";
 import { resultInitialState } from "../../Constants/constants";
 import { AnswersTimer } from "../AnswersTimer/AnswersTimer";
+import UseFetchData from "../../hooks/UseFetchData";
 
-export const QuizScreen = ({ questions, retry }) => {
+export const QuizScreen = ({ retry }) => {
+
+    const bas_url = "http://localhost:3000/quizzes";
+
+    const apiUrl = useMemo(() => bas_url, [bas_url]);
+
+    const { data: questions, loader } = UseFetchData(apiUrl);
     const [duration] = useState(10);
 
     const [currentQuestion, setCurrentQuestion] = useState(0);
@@ -18,8 +26,19 @@ export const QuizScreen = ({ questions, retry }) => {
 
     const [showAnswerTimer, setShowAnswerTimer] = useState(true);
 
-    const { question, options, correct_index } = questions[currentQuestion];
+    if (loader) {
+        return (
+            <div className="container px-5 my-5">
+                <div className="row gx-5">
+                    <div className="col-12 d-flex justify-content-center align-items-center" style={{ height: '80vh' }}>
+                        <Loader />
+                    </div>
+                </div>
+            </div>
+        );
+    }
 
+    const { question, options, correct_index } = questions[currentQuestion];
     const onAnswerClicked = (answer, index) => {
         setAnswerIndex(index);
         if (answer === correct_index) {

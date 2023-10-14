@@ -1,6 +1,5 @@
 import { QuizScreen } from './Components/QuizScreen/QuizScreen';
 import { JoinScreen } from './Components/JoinScreen/JoinScreen';
-import QuestionList from "./data/quizzes.json";
 import { useState } from 'react';
 
 
@@ -10,7 +9,7 @@ function App() {
     <div className="quiz-container">
       {
         isQuizStarted ? (
-          <QuizScreen retry={() => setIsQuizStarted(false)} questions={QuestionList} />
+          <QuizScreen retry={() => setIsQuizStarted(false)}  />
         ) : (
           <JoinScreen start={() => setIsQuizStarted(true)} />
         )

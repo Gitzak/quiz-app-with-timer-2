@@ -22,16 +22,14 @@ export const AnswersTimer = ({ duration, onTimeUp }) => {
                 onTimeUp();
             }, 1000);
         }
-    }, [counter]);
+    }, [counter, duration, onTimeUp]);
 
     return (
         <div className="answer-timer-container">
             <div
                 style={{
                     width: `${progressLoaded}%`,
-                    backgroundColor: `${
-                      progressLoaded < 70 ? 'rgb(0, 255, 255)' : 'rgb(255, 0, 75)'
-                    }`
+                    backgroundColor: `${progressLoaded < 70 ? "rgb(0, 255, 255)" : "rgb(255, 0, 75)"}`,
                 }}
                 className="progress text-white">
                 {counter}

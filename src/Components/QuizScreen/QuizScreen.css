@@ -1,3 +1,7 @@
 #question-container{
     position: relative;
 }
+
+button{
+    height: 48px;
+}
