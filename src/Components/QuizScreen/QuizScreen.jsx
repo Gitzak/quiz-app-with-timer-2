@@ -1,4 +1,5 @@
 import React, { useMemo, useState } from "react";
+import bcrypt from "bcryptjs-react";
 import { Loader } from "../Loader/Loader";
 import "./QuizScreen.css";
 import { resultInitialState } from "../../Constants/constants";
@@ -30,7 +31,7 @@ export const QuizScreen = ({ retry }) => {
         return (
             <div className="container px-5 my-5">
                 <div className="row gx-5">
-                    <div className="col-12 d-flex justify-content-center align-items-center" style={{ height: '80vh' }}>
+                    <div className="col-12 d-flex justify-content-center align-items-center" style={{ height: "80vh" }}>
                         <Loader />
                     </div>
                 </div>
@@ -39,16 +40,14 @@ export const QuizScreen = ({ retry }) => {
     }
 
     const { question, options, correct_index } = questions[currentQuestion];
-    const onAnswerClicked = (answer, index) => {
+    const onAnswerClicked = async (answer, index) => {
         setAnswerIndex(index);
-        if (answer === correct_index) {
-            setAnswer(true);
-        } else {
-            setAnswer(false);
-        }
+        const isCorrect = bcrypt.compareSync(answer, correct_index);
+        setAnswer(isCorrect);       
     };
 
     const onClickNext = (finalAnswer) => {
+        // console.log(finalAnswer);
         setAnswerIndex(null);
         setShowAnswerTimer(false);
         setResult((prev) =>
