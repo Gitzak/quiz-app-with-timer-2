@@ -7,6 +7,7 @@ import { AnswersTimer } from "../AnswersTimer/AnswersTimer";
 import UseFetchData from "../../hooks/UseFetchData";
 
 export const QuizScreen = ({ retry }) => {
+    const encryptionKey = process.env.REACT_APP_SECRET_KEY;
 
     const { data: questions, loader } = UseFetchData();
     const [duration] = useState(10);
@@ -38,7 +39,7 @@ export const QuizScreen = ({ retry }) => {
     const { question, options, correct_index } = questions[currentQuestion];
     const onAnswerClicked = async (answer, index) => {
         setAnswerIndex(index);
-        const isCorrect = bcrypt.compareSync(answer, correct_index);
+        const isCorrect = bcrypt.compareSync(answer + "_" + encryptionKey, correct_index);
         // console.log(isCorrect);
         setAnswer(isCorrect);
     };

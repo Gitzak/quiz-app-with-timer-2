@@ -5,24 +5,22 @@ const path = require('path');
 
 dotenv.config();
 
-const inputFilePath = path.join(__dirname, '../public/data/quizzes.json');
-const outputFilePath = path.join(__dirname, '../public/data/encrypted_quizzes.json');
-
+const inputFilePath = path.join(__dirname, '../public/Db/quizzes.json');
+const outputFilePath = path.join(__dirname, '../public/Db/encrypted_quizzes.json');
 
 const saltRounds = 10; // Adjust the number of salt rounds as needed
 
 const encryptionKey = process.env.REACT_APP_SECRET_KEY;
 
-function hashData(data) {
-    const hashedData = { ...data };
+function hashData(data, encryptionKey) {
+    const hashedData = [...data];
 
-    if (hashedData.quizzes) {
-        hashedData.quizzes.forEach((quiz) => {
-            if (quiz.correct_index) {
-                quiz.correct_index = bcrypt.hashSync(quiz.correct_index, saltRounds);
-            }
-        });
-    }
+    hashedData.forEach((quiz) => {
+        if (quiz.correct_index) {
+            const textToHash = quiz.correct_index + '_' + encryptionKey;
+            quiz.correct_index = bcrypt.hashSync(textToHash, saltRounds);
+        }
+    });
 
     return hashedData;
 }
@@ -40,7 +38,7 @@ try {
         console.error('Encryption key not found in environment variables.');
     } else {
         // Hash the data
-        const hashedData = hashData(jsonData);
+        const hashedData = hashData(jsonData, encryptionKey);
 
         // Write the hashed data to the output file
         saveDataToFile(hashedData, outputFilePath);

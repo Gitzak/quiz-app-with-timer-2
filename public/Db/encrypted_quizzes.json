@@ -8,18 +8,18 @@
       "Highly Textual Markup Language"
     ],
     "type": "MCQ",
-    "correct_index": "$2b$10$UzQcypWZJkCPQj6eMPhJ9OHRCl/I1dxV/KZUiiTTplplSytJfOtba"
+    "correct_index": "$2b$10$Ll8HN3rHAIUCOwLL1OLaOOF31s4AUrDd8MDCUPfdZFxnIh1AFpmeO"
   },
   {
     "question": "Which HTML tag is used for creating a hyperlink?",
     "options": [
       "<link>",
-      "<a>",
       "<hyperlink>",
+      "<a>",
       "<url>"
     ],
     "type": "MCQ",
-    "correct_index": "$2b$10$iLKFheBwR0SCpmkInt9zUecDENa6eFEPJ/Tz3.2xS6M./zVz/5hGC"
+    "correct_index": "$2b$10$5Cuoha7MGs0.5IrJz2W.z.LAhPAPNSOAAFkvCIyFliIHivAo3Vo5S"
   },
   {
     "question": "What is the correct way to comment out multiple lines in HTML?",
@@ -30,7 +30,7 @@
       "# This is a comment"
     ],
     "type": "MCQ",
-    "correct_index": "$2b$10$04F8AYGlIf96UB0Ad8VWueVDIAKoj9f3JGVnh4UVi1zsQiM1EkKZu"
+    "correct_index": "$2b$10$iiGmHjC0IVKkY1DeIVjRCu6lcKw8vdieRY/mxRhNlvbWaOj8nItZu"
   },
   {
     "question": "What does DOM stand for in JavaScript?",
@@ -41,6 +41,6 @@
       ""
     ],
     "type": "MCQ",
-    "correct_index": "$2b$10$93c31.Ua8ioCtmRUd1CLPe59f9o6GsRPEs5N7KR0fMp.5DewG.3nS"
+    "correct_index": "$2b$10$NPDko6eX56lM2tno3viNouCYoiVNUNb24WhdX/MATu6.bUvEr1Fl2"
   }
 ]
