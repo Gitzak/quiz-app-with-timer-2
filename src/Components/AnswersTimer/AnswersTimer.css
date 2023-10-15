@@ -8,7 +8,7 @@
 
 .answer-timer-container > .progress{
     height: 5px;
-    transition-duration: 0.1s;
+    transition-duration: 0.11s;
     width: 0;
     transition-timing-function: linear;
 }

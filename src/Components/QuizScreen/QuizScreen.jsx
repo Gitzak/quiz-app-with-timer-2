@@ -42,6 +42,7 @@ export const QuizScreen = ({ retry }) => {
     const onAnswerClicked = async (answer, index) => {
         setAnswerIndex(index);
         const isCorrect = bcrypt.compareSync(answer, correct_index);
+        // console.log(isCorrect);
         setAnswer(isCorrect);
     };
 
@@ -74,14 +75,9 @@ export const QuizScreen = ({ retry }) => {
         });
     };
 
-    // const onTryAgain = () => {
-    //     setResult(resultInitialState);
-    //     setShowReult(false);
-    // };
-
     const handleTimeUp = () => {
         setAnswer(false);
-        onClickNext(false);
+        onClickNext(answer);
     };
 
     const commonClassName = "btn btn-lg px-4 me-sm-3 rounded-pill w-100";
