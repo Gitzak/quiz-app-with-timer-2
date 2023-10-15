@@ -1,0 +1,46 @@
+[
+  {
+    "question": "What does HTML stand for?",
+    "options": [
+      "Hyper Transfer Markup Language",
+      "Hyper Text Markup Language",
+      "Hyperlink and Text Markup Language",
+      "Highly Textual Markup Language"
+    ],
+    "type": "MCQ",
+    "correct_index": "$2b$10$UzQcypWZJkCPQj6eMPhJ9OHRCl/I1dxV/KZUiiTTplplSytJfOtba"
+  },
+  {
+    "question": "Which HTML tag is used for creating a hyperlink?",
+    "options": [
+      "<link>",
+      "<a>",
+      "<hyperlink>",
+      "<url>"
+    ],
+    "type": "MCQ",
+    "correct_index": "$2b$10$iLKFheBwR0SCpmkInt9zUecDENa6eFEPJ/Tz3.2xS6M./zVz/5hGC"
+  },
+  {
+    "question": "What is the correct way to comment out multiple lines in HTML?",
+    "options": [
+      "<!-- This is a comment -->",
+      "// This is a comment",
+      "/* This is a comment */",
+      "# This is a comment"
+    ],
+    "type": "MCQ",
+    "correct_index": "$2b$10$04F8AYGlIf96UB0Ad8VWueVDIAKoj9f3JGVnh4UVi1zsQiM1EkKZu"
+  },
+  {
+    "question": "What does DOM stand for in JavaScript?",
+    "options": [
+      "Document Object Model",
+      "",
+      "Dynamic Object Model",
+      ""
+    ],
+    "type": "MCQ",
+    "correct_index": "$2b$10$93c31.Ua8ioCtmRUd1CLPe59f9o6GsRPEs5N7KR0fMp.5DewG.3nS"
+  }
+]

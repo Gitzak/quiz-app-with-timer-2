@@ -9,7 +9,8 @@ const UseFetchData = (url) => {
         const fetchData = async () => {
             try {
                 setLoader(true);
-                const response = await fetch(url);
+                const response = await fetch(`/Db/encrypted_quizzes.json`);
+                console.log(response);
                 const data = await response.json();
                 setData(data);
             } catch (error) {
