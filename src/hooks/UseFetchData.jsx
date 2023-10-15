@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+
 const UseFetchData = (url) => {
     const [data, setData] = useState([]);
     const [loader, setLoader] = useState(true);
@@ -18,9 +19,11 @@ const UseFetchData = (url) => {
                 setLoader(false);
             }
         };
+
+        const controller = controllerRef.current; // Copy the reference to a local variable
         fetchData();
 
-        return () => controllerRef.current.abort();
+        return () => controller.abort();
     }, [url]);
 
     return { data, loader, error };

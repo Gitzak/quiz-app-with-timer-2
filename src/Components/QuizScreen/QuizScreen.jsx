@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useState } from "react";
 import bcrypt from "bcryptjs-react";
 import { Loader } from "../Loader/Loader";
 import "./QuizScreen.css";
