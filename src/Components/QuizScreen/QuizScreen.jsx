@@ -7,7 +7,8 @@ import { AnswersTimer } from "../AnswersTimer/AnswersTimer";
 import UseFetchData from "../../hooks/UseFetchData";
 
 export const QuizScreen = ({ retry }) => {
-    const bas_url = "http://localhost:3000/quizzes";
+    // const bas_url = "http://localhost:3000/quizzes";
+    const bas_url = "https://quiz-app-with-timer-2-38pl5.vercel.com/quizzes";
 
     const apiUrl = useMemo(() => bas_url, [bas_url]);
 
