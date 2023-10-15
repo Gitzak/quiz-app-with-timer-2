@@ -7,7 +7,6 @@ import { AnswersTimer } from "../AnswersTimer/AnswersTimer";
 import UseFetchData from "../../hooks/UseFetchData";
 
 export const QuizScreen = ({ retry }) => {
-
     const bas_url = "http://localhost:3000/quizzes";
 
     const apiUrl = useMemo(() => bas_url, [bas_url]);
@@ -43,7 +42,7 @@ export const QuizScreen = ({ retry }) => {
     const onAnswerClicked = async (answer, index) => {
         setAnswerIndex(index);
         const isCorrect = bcrypt.compareSync(answer, correct_index);
-        setAnswer(isCorrect);       
+        setAnswer(isCorrect);
     };
 
     const onClickNext = (finalAnswer) => {
@@ -114,7 +113,7 @@ export const QuizScreen = ({ retry }) => {
                                     })}
                                 </div>
                                 <div className="d-flex m-4 justify-content-end fixed-bottom">
-                                    <button onClick={() => onClickNext(answer)} className="btn btn-warning btn-lg px-4 me-sm-4 rounded-pill">
+                                    <button onClick={() => onClickNext(answer)} className="btn btn-warning btn-lg px-4 me-sm-4 rounded-pill" disabled={answerIndex === null}>
                                         {currentQuestion === question.length - 1 ? "Finish" : "Next"}
                                     </button>
                                 </div>

@@ -12420,3 +12420,7 @@ textarea.form-control-lg {
     display: none !important;
   }
 }
+
+* {
+  user-select: none;
+}
