@@ -1,0 +1,12 @@
+.git
+.env
+.env.*
+tests
+output
+data
+.playwright-cli
+*.log
+README.md
+firebase-admin.json
+*-firebase-adminsdk-*.json
+*service-account*.json

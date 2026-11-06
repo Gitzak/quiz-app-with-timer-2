@@ -1,70 +1,74 @@
-# Getting Started with Create React App
+# PHP pratique
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+QCM PHP en francais : trois niveaux, questions chronometrees, corrections expliquees et score final.
 
-## Available Scripts
+React + Vite affichent l'interface. Une API Express dans Vercel lit les questions, valide les reponses et enregistre les tentatives dans Firebase Firestore. Aucun serveur local separe ni base SQLite.
 
-In the project directory, you can run:
+## Developpement local
 
-### `npm start`
+Node 24 recommande. Copier `.env.example` vers `.env` et renseigner le chemin du JSON prive Firebase, conserve hors du depot.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+```dotenv
+FIREBASE_PROJECT_ID=php-pratique-qcm
+GOOGLE_APPLICATION_CREDENTIALS=C:/Users/ZAK/.config/php-pratique/firebase-admin.json
+```
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+```sh
+npm ci
+npm run dev
+```
 
-### `npm test`
+Vite sert l'interface et transmet les requetes `/api` a la meme API Firebase que Vercel. Un seul port, affiche dans le terminal.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+```sh
+npm run check
+npm audit
+npm run preview
+```
 
-### `npm run build`
+`check` execute lint et build. `preview` sert le dernier build avec l'API locale ; il faut construire le projet auparavant. Les fichiers de verification locaux dans `tests/` sont exclus de Git et du deploiement.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Firebase
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Projet : `php-pratique-qcm`. Base : `(default)`, edition Standard.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Les regles de `firestore.rules` refusent tout acces direct des clients. Le compte serveur `php-quiz-server` utilise le role IAM Cloud Datastore User. Firebase Admin passe par IAM, pas par les regles des clients.
 
-### `npm run eject`
+- `quiz_banks` : questions et corrections privees, par niveau.
+- `quiz_attempts` : tentatives, echeances et reponses verrouillees.
+- `quiz_rate_limits` : compteurs anti-abus partages entre instances.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+La banque initiale se trouve dans `scripts/questions.js`, uniquement pour l'import serveur :
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+```sh
+npm run firebase:seed
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+Les niveaux existants sont preserves. `npm run firebase:seed -- --overwrite` les remplace explicitement. Les tentatives ne sont pas effacees par cet import.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## Deploiement Vercel
 
-## Learn More
+`vercel.json` definit le preset Vite, le build, les en-tetes de securite et le routage `/api/*` vers `api/index.js`. Choisir Node 24 dans Vercel.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Variables sensibles a configurer dans Settings > Environment Variables :
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+| Variable | Valeur |
+| --- | --- |
+| FIREBASE_PROJECT_ID | php-pratique-qcm |
+| FIREBASE_SERVICE_ACCOUNT_JSON | Contenu complet du JSON prive du compte serveur |
 
-### Code Splitting
+Le JSON et `.env` ne doivent jamais etre publies ni transmis au frontend. Ne pas utiliser de variable `VITE_` pour un secret. Le chemin Windows de `GOOGLE_APPLICATION_CREDENTIALS` ne fonctionne que localement.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+Vercel utilise une Function : aucune commande `npm start` ni disque persistant ne sont necessaires. Les anciens workflows Azure et le serveur autonome ont ete retires.
 
-### Analyzing the Bundle Size
+## Parcours et protection
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+Chaque tentative tire 10 questions parmi les 15 du niveau choisi. Les options et leurs identifiants sont melanges. Delais : 40 secondes en debutant, 45 en intermediaire, 60 en avance. Le timer devient rouge durant les dix dernieres secondes ; la reduction des animations est respectee.
 
-### Making a Progressive Web App
+Le navigateur ne recoit que la question actuelle. Le serveur compare l'option choisie avec la reponse privee, verifie le delai et verrouille la reponse dans une transaction Firestore. La correction est envoyee apres validation. Le score est recalcule a partir des reponses sauvegardees ; il ne vient pas du client.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+Une tentative utilise un jeton aleatoire de 256 bits en cookie HttpOnly, SameSite=Strict et Secure sur Vercel. Seule son empreinte est en base. Les tentatives expirent apres deux heures d'inactivite ; les documents expires sont nettoyes par petits lots aux nouvelles tentatives. Le serveur refuse toujours une tentative expiree, meme si le document n'a pas encore ete supprime.
 
-### Advanced Configuration
+Les mutations exigent du JSON, un en-tete personnalise et une origine coherente. Les requetes sont limitees localement et dans Firestore. Les compteurs consomment des lectures/ecritures : surveiller Usage dans Firebase.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Un utilisateur peut memoriser les corrections ou modifier visuellement sa page. L'objectif est de garder la banque privee et la decision du score cote serveur ; ce dispositif ne remplace pas une surveillance d'examen.
